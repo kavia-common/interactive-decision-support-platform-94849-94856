@@ -1,0 +1,4 @@
+Binary tarball creation may be restricted in this environment.
+To generate the archive locally, run:
+  bash build_artifacts/CREATE_TAR_GZ_COMMANDS.sh
+This will create: build_artifacts/simple-deploy.tar.gz
