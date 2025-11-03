@@ -4,10 +4,12 @@ from typing import Generator
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base, Session
 
+from .config import settings
+
 # PUBLIC_INTERFACE
 def get_database_url() -> str:
     """Return the database URL from env or default to local SQLite file."""
-    return os.getenv("DATABASE_URL", "sqlite:///./app.db")
+    return settings.DATABASE_URL
 
 
 # Configure database engine
