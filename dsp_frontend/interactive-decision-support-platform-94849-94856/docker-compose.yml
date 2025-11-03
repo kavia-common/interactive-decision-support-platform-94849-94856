@@ -7,34 +7,33 @@ services:
     container_name: dsp_backend
     ports:
       - "8000:8000"
+    env_file:
+      - ./dsp_backend/.env
     environment:
-      # Backend configuration
-      - PROJECT_NAME=DSP Backend API
-      - PROJECT_DESCRIPTION=FastAPI backend for Decision Support Platform providing auth and agent endpoints.
-      - PROJECT_VERSION=0.1.0
-      - SECRET_KEY=changeme-in-prod
-      - ACCESS_TOKEN_EXPIRE_MINUTES=60
-      # Allow frontend origin through CORS (matches frontend service below)
-      - CORS_ORIGINS=http://localhost:3000
-      # Default SQLite DB inside container
-      - DATABASE_URL=sqlite:////app/app.db
+      # Fallbacks if .env isn't provided
+      PROJECT_NAME: ${PROJECT_NAME:-DSP Backend API}
+      PROJECT_DESCRIPTION: ${PROJECT_DESCRIPTION:-FastAPI backend for Decision Support Platform providing auth and agent endpoints.}
+      PROJECT_VERSION: ${PROJECT_VERSION:-0.1.0}
+      SECRET_KEY: ${SECRET_KEY:-changeme-in-prod}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-60}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
+      DATABASE_URL: ${DATABASE_URL:-sqlite:////app/app.db}
     restart: unless-stopped
 
   dsp_frontend:
     build:
       context: ./dsp_frontend
-      # If no Dockerfile exists in frontend, this will use a default node image with npm start
-      # For CRA dev server, we can mount and run via command below
     container_name: dsp_frontend
     ports:
       - "3000:3000"
+    env_file:
+      - ./dsp_frontend/.env
     environment:
-      # Point the frontend to backend service via localhost (since ports are published)
-      - REACT_APP_API_BASE_URL=http://localhost:8000
-      # Required for Create React App to listen on all interfaces
-      - HOST=0.0.0.0
-      - PORT=3000
-      - CHOKIDAR_USEPOLLING=true
+      # Fallbacks if .env isn't provided
+      REACT_APP_API_BASE_URL: ${REACT_APP_API_BASE_URL:-http://localhost:8000}
+      HOST: ${HOST:-0.0.0.0}
+      PORT: ${PORT:-3000}
+      CHOKIDAR_USEPOLLING: ${CHOKIDAR_USEPOLLING:-true}
     working_dir: /app
     volumes:
       - ./dsp_frontend:/app
