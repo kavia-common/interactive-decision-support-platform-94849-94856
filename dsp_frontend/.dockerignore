@@ -1,0 +1,23 @@
+# Dependencies and caches
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Build outputs
+build
+dist
+
+# Local env and editor files
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.DS_Store
+*.swp
+*.swo
+.vscode
+.idea
+
+# Tests and coverage (not needed in prod image)
+coverage
